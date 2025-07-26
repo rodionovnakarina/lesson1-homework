@@ -1,7 +1,15 @@
-def print_number(num):
-    print(num)
+def print_digit(num):
+    print(num, end='')
 
-# Выводим номер 11 раз
-for _ in range(11):
-    print_number(88005553535)
-    
+print_digit(8)
+print_digit(8)
+print_digit(0)
+print_digit(0)
+print_digit(5)
+print_digit(5)
+print_digit(5)
+print_digit(3)
+print_digit(5)
+print_digit(3)
+print_digit(5)
+
