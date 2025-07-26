@@ -3,3 +3,4 @@ my_age = 25  # Замените 25 на ваш реальный возраст
 my_age = my_age + 3
 print(my_age)
 
+
