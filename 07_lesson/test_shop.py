@@ -1,4 +1,3 @@
-import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -22,8 +21,4 @@ def test_shop(driver):
     )
     checkout_btn.click()
 
-    # Проверка URL после перехода на страницу checkout
-    WebDriverWait(driver, 15).until(
-        lambda d: "/checkout-step-one.html" in d.current_url
-    )
-    assert "/checkout-step-one.html" in driver.current_url
+    assert "checkout-step-one.html" in driver.current_url

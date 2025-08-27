@@ -1,4 +1,3 @@
-import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,10 +11,9 @@ def test_form_submission(driver):
     submit_btn = WebDriverWait(driver, 15).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "button"))
     )
-    driver.execute_script("arguments[0].click();", submit_btn)
+    submit_btn.click()
 
-    # Проверяем, что URL содержит submit=OK
-    WebDriverWait(driver, 15).until(
-        lambda d: "submit=OK" in d.current_url
+    message = WebDriverWait(driver, 15).until(
+        EC.visibility_of_element_located((By.ID, "message"))
     )
-    assert "submit=OK" in driver.current_url
+    assert "Form submitted" in message.text
