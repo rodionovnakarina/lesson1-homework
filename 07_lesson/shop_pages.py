@@ -1,48 +1,31 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-class LoginPage:
+class ShopPage:
     def __init__(self, driver):
         self.driver = driver
-        self.username = (By.ID, "user-name")
-        self.password = (By.ID, "password")
-        self.login_btn = (By.ID, "login-button")
+        self.url = "https://www.saucedemo.com/"
 
-    def login(self, user, pwd):
-        self.driver.find_element(*self.username).send_keys(user)
-        self.driver.find_element(*self.password).send_keys(pwd)
-        self.driver.find_element(*self.login_btn).click()
+    def open(self):
+        self.driver.get(self.url)
 
-class ProductsPage:
-    def __init__(self, driver):
-        self.driver = driver
+    def login(self, username="standard_user", password="secret_sauce"):
+        self.driver.find_element(By.ID, "user-name").send_keys(username)
+        self.driver.find_element(By.ID, "password").send_keys(password)
+        self.driver.find_element(By.ID, "login-button").click()
 
-    def add_product(self, name):
-        self.driver.find_element(By.XPATH, f"//div[text()='{name}']/ancestor::div[@class='inventory_item']//button").click()
+    def add_first_item_to_cart(self):
+        self.driver.find_element(By.CLASS_NAME, "btn_inventory").click()
 
     def go_to_cart(self):
         self.driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
 
-class CartPage:
-    def __init__(self, driver):
-        self.driver = driver
+    def click_checkout(self):
+        checkout_btn = WebDriverWait(self.driver, 15).until(
+            EC.element_to_be_clickable((By.ID, "checkout"))
+        )
+        checkout_btn.click()
 
-    def checkout(self):
-        self.driver.find_element(By.ID, "checkout").click()
-
-class CheckoutPage:
-    def __init__(self, driver):
-        self.driver = driver
-        self.first = (By.ID, "first-name")
-        self.last = (By.ID, "last-name")
-        self.zip = (By.ID, "postal-code")
-        self.cont = (By.ID, "continue")
-        self.total = (By.CLASS_NAME, "summary_total_label")
-
-    def fill_form(self, first, last, zip_code):
-        self.driver.find_element(*self.first).send_keys(first)
-        self.driver.find_element(*self.last).send_keys(last)
-        self.driver.find_element(*self.zip).send_keys(zip_code)
-        self.driver.find_element(*self.cont).click()
-
-    def get_total(self):
-        return self.driver.find_element(*self.total).text
+    def is_on_checkout_page(self):
+        return "checkout-step-one.html" in self.driver.current_url

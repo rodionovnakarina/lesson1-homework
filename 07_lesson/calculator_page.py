@@ -3,15 +3,20 @@ from selenium.webdriver.common.by import By
 class CalculatorPage:
     def __init__(self, driver):
         self.driver = driver
-        self.delay = (By.ID, "delay")
-        self.result = (By.CSS_SELECTOR, ".screen")
+        self.url = "https://www.calculator.net/"
 
-    def set_delay(self, value):
-        self.driver.find_element(*self.delay).clear()
-        self.driver.find_element(*self.delay).send_keys(str(value))
+    def open(self):
+        self.driver.get(self.url)
 
-    def click_button(self, text):
-        self.driver.find_element(By.XPATH, f"//span[text()='{text}']").click()
+    def enter_number(self, number):
+        for digit in str(number):
+            self.driver.find_element(By.XPATH, f"//span[text()='{digit}']").click()
+
+    def press_plus(self):
+        self.driver.find_element(By.XPATH, "//span[text()='+']").click()
+
+    def press_equals(self):
+        self.driver.find_element(By.XPATH, "//span[text()='=']").click()
 
     def get_result(self):
-        return self.driver.find_element(*self.result).text
+        return self.driver.find_element(By.ID, "sciOutPut").text.strip()

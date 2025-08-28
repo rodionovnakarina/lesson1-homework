@@ -1,19 +1,11 @@
-import pytest
+from calculator_page import CalculatorPage
 
-def calculator(a, b, op):
-    if op == "+":
-        return a + b
-    elif op == "-":
-        return a - b
-    elif op == "*":
-        return a * b
-    elif op == "/":
-        return a / b
-    else:
-        raise ValueError("Unsupported operation")
-
-def test_calculator():
-    assert calculator(2, 3, "+") == 5
-    assert calculator(5, 2, "-") == 3
-    assert calculator(3, 4, "*") == 12
-    assert calculator(10, 2, "/") == 5
+def test_calculator(driver):
+    calc = CalculatorPage(driver)
+    calc.open()
+    calc.enter_number(7)
+    calc.press_plus()
+    calc.enter_number(8)
+    calc.press_equals()
+    result = calc.get_result()
+    assert result == "15", f"Ожидали 15, но получили {result}"
